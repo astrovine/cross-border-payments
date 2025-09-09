@@ -1,0 +1,22 @@
+# Python/Virtualenv
+venv/
+.venv/
+env/
+.env
+__pycache__/
+*.pyc
+
+# IDE settings
+.idea/
+.vscode/
+
+# Node.js dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts
+build/
+dist/
+.DS_Store
+
