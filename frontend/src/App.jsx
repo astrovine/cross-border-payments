@@ -3,6 +3,7 @@ import { Globe, TrendingUp, Users, Shield } from 'lucide-react';
 import bgImage from './image/travel-elements-map-top-view.jpg';
 import PaymentForm from './components/PaymentForm';
 import RecommendationResult from './components/RecommendationResult';
+import ExchangeRateTicker from './components/ExchangeRateTicker';
 
 function App() {
   const [result, setResult] = useState(null);
@@ -15,9 +16,9 @@ function App() {
     try {
       const queryParams = new URLSearchParams({
         amount: amount.toString(),
-        source_currency: sourceCurrency,
-        dest_currency: destCurrency,
+        dest_currency: destCurrency, // Fixed: backend expects dest_currency, not destCurrency
         priority: priority
+        // Note: source_currency is not currently supported by backend
       });
 
       const res = await fetch(`http://localhost:8000/recommend?${queryParams}`);
@@ -30,6 +31,8 @@ function App() {
       }
 
       const data = await res.json();
+
+      // Backend now returns the correct structure: {best, providers, summary}
       setResult(data);
     } catch (err) {
       setResult({
@@ -38,6 +41,12 @@ function App() {
     }
 
     setLoading(false);
+  };
+
+  const handleRateClick = (fromCurrency, toCurrency) => {
+    // This function will be called when a user clicks on an exchange rate
+    // You can use it to auto-populate the form or show more details
+    console.log(`Selected rate: ${fromCurrency} to ${toCurrency}`);
   };
 
   return (
@@ -103,16 +112,23 @@ function App() {
       {/* Main Dashboard */}
       <div className="relative -mt-20 z-20">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 gap-8">
             {/* Form Section */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-xl p-8 backdrop-blur border border-white/20">
-                <PaymentForm onSubmit={handleSubmit} loading={loading} />
+            <div className="xl:col-span-1 lg:col-span-1">
+              <div className="space-y-6">
+                <div className="bg-white rounded-2xl shadow-xl p-6 backdrop-blur border border-white/20">
+                  <PaymentForm onSubmit={handleSubmit} loading={loading} />
+                </div>
+                
+                {/* Exchange Rate Ticker */}
+                <div className="bg-white rounded-2xl shadow-xl backdrop-blur border border-white/20 overflow-hidden">
+                  <ExchangeRateTicker onRateClick={handleRateClick} />
+                </div>
               </div>
             </div>
 
             {/* Results Section */}
-            <div className="lg:col-span-2">
+            <div className="xl:col-span-3 lg:col-span-2">
               {loading && (
                 <div className="bg-white rounded-2xl shadow-xl p-8 border border-white/20">
                   <div className="flex items-center justify-center py-20">
@@ -124,7 +140,7 @@ function App() {
                   </div>
                 </div>
               )}
-
+              
               {result && !loading && (
                 <div className="bg-white rounded-2xl shadow-xl border border-white/20 overflow-hidden">
                   <RecommendationResult result={result} />
@@ -212,7 +228,7 @@ function App() {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>&copy; 2025 BorderOpt. All rights reserved. | Built with ❤️ for global financial inclusion.</p>
+            <p>&copy; 2025 astrovine. All rights reserved. | Built with ❤️ for global financial inclusion.</p>
           </div>
         </div>
       </footer>

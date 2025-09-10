@@ -51,6 +51,8 @@ def recommend_provider(df, amount, exchange_rates, dest_currency, priority='cost
             'Total_Cost': cost,
             'Avg_Speed_Hours': speed,
             'Destination_Amount': amount * rate,
+            'Exchange_Rate': rate,
+            'Fees': row.get('Fixed_Fee_Min_USD', 0) + (row.get('Percentage_Fee_Min', 0) / 100) * amount,
         })
 
     if not results:
@@ -66,7 +68,24 @@ def recommend_provider(df, amount, exchange_rates, dest_currency, priority='cost
         # Default to cost if priority is unknown
         best = recommendations.sort_values(by='Total_Cost').iloc[0]
 
-    return best.to_dict()
+    # Calculate summary statistics
+    total_costs = recommendations['Total_Cost'].tolist()
+    baseline_cost = max(total_costs) if total_costs else 0
+    best_cost = min(total_costs) if total_costs else 0
+    savings = baseline_cost - best_cost
+
+    # Return comprehensive result with all providers
+    return {
+        'best': best.to_dict(),
+        'providers': recommendations.to_dict('records'),
+        'summary': {
+            'baseline_cost': baseline_cost,
+            'best_cost': best_cost,
+            'savings': savings,
+            'savings_percentage': (savings / baseline_cost * 100) if baseline_cost > 0 else 0,
+            'total_providers': len(results)
+        }
+    }
 
 if __name__ == '__main__':
     df = pd.read_csv('C:/Code/Python/border-opt/dataset/payment.csv')

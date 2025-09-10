@@ -63,12 +63,12 @@ export default function PaymentForm({ onSubmit, loading }) {
   return (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Money Transfer Calculator</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">Transfers</h2>
         <p className="text-gray-600">Find the best rates and fastest transfers worldwide</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Amount Input */}
+
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-gray-700">
             <DollarSign className="inline w-4 h-4 mr-1" />
@@ -97,7 +97,7 @@ export default function PaymentForm({ onSubmit, loading }) {
           {errors.amount && <p className="text-red-500 text-sm">{errors.amount}</p>}
         </div>
 
-        {/* Currency Selection */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-gray-700">From Currency</label>
@@ -140,7 +140,7 @@ export default function PaymentForm({ onSubmit, loading }) {
           <p className="text-red-500 text-sm text-center">{errors.currency}</p>
         )}
 
-        {/* Exchange Direction Visual */}
+
         <div className="flex items-center justify-center py-2">
           <div className="flex items-center space-x-3 text-gray-600">
             <span className="text-lg font-medium">{getCurrencyInfo(sourceCurrency).symbol} {sourceCurrency}</span>
@@ -149,7 +149,7 @@ export default function PaymentForm({ onSubmit, loading }) {
           </div>
         </div>
 
-        {/* Priority Selection */}
+
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-gray-700">Priority</label>
           <div className="grid grid-cols-2 gap-3">
@@ -180,7 +180,6 @@ export default function PaymentForm({ onSubmit, loading }) {
           </div>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
@@ -189,7 +188,7 @@ export default function PaymentForm({ onSubmit, loading }) {
           {loading ? (
             <div className="flex items-center justify-center">
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-              Finding Best Rates...
+              Finding Best Rates
             </div>
           ) : (
             'Get Best Rates'
