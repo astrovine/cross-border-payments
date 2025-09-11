@@ -2,8 +2,11 @@ import requests
 import os
 import pandas as pd
 import numpy as np
+from dotenv import load_dotenv
 
-API_KEY = '2f1f680640e4499baf6924f25eed4b90'
+load_dotenv()
+
+API_KEY = os.getenv('API_KEY')
 
 def get_exchange_rates(source_currency='USD', dest_currency=None):
     """Fetch exchange rates and handle currency conversion."""
