@@ -10,9 +10,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [currentDestCurrency, setCurrentDestCurrency] = useState('USD');
 
-  // Use production Railway URL when deployed, localhost for development
   const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://your-railway-app-name.railway.app'  // Replace with your actual Railway URL
+    ? 'https://your-railway-app-name.railway.app'
     : 'http://localhost:8000';
 
   const handleSubmit = async ({ amount, sourceCurrency, destCurrency, priority }) => {
@@ -122,7 +121,6 @@ function App() {
               </div>
             </div>
 
-            {/* Results Section */}
             <div className="xl:col-span-3 lg:col-span-2">
               {loading && (
                 <div className="bg-white rounded-2xl shadow-xl p-8 border border-white/20">
@@ -176,7 +174,6 @@ function App() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="mt-20 bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
