@@ -8,22 +8,27 @@ import ExchangeRateTicker from './components/ExchangeRateTicker';
 function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [currentDestCurrency, setCurrentDestCurrency] = useState('USD'); // Track destination currency
+  const [currentDestCurrency, setCurrentDestCurrency] = useState('USD');
+
+  // Use production Railway URL when deployed, localhost for development
+  const API_BASE_URL = process.env.NODE_ENV === 'production'
+    ? 'https://your-railway-app-name.railway.app'  // Replace with your actual Railway URL
+    : 'http://localhost:8000';
 
   const handleSubmit = async ({ amount, sourceCurrency, destCurrency, priority }) => {
     setLoading(true);
     setResult(null);
-    setCurrentDestCurrency(destCurrency); // Store the destination currency
+    setCurrentDestCurrency(destCurrency);
 
     try {
       const queryParams = new URLSearchParams({
         amount: amount.toString(),
-        source_currency: sourceCurrency, // Add source currency parameter
+        source_currency: sourceCurrency,
         dest_currency: destCurrency,
         priority: priority
       });
 
-      const res = await fetch(`http://localhost:8000/recommend?${queryParams}`);
+      const res = await fetch(`${API_BASE_URL}/recommend?${queryParams}`);
 
       if (!res.ok) {
         const text = await res.text();
@@ -36,7 +41,7 @@ function App() {
       setResult(data);
     } catch (err) {
       setResult({
-        error: 'Failed to connect to backend. Please ensure the backend server is running on port 8000.'
+        error: 'Failed to connect to backend. Please ensure the backend server is running.'
       });
     }
 
