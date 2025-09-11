@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-# Create the dataset directory if it doesn't exist
+
 os.makedirs('dataset', exist_ok=True)
 
 # Payment providers data

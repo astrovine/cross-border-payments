@@ -30,7 +30,7 @@ def get_exchange_rates(source_currency='USD', dest_currency=None):
                 return None
 
             if dest_currency:
-                # Cross rate calculation: source -> USD -> destination
+                # Cross rate calculation
                 usd_to_dest = rates[dest_currency]
                 usd_to_source = rates[source_currency]
                 source_to_dest = usd_to_dest / usd_to_source
@@ -58,7 +58,7 @@ def calculate_total_cost(row, amount, exchange_rate, source_currency='USD'):
 
     # Convert amount to USD if source currency is not USD
     if source_currency != 'USD':
-        # Get USD conversion rate for source currency - use a simple API call
+        # Get USD conversion rate for source currency
         try:
             url = f'https://openexchangerates.org/api/latest.json?app_id={API_KEY}&base=USD&symbols={source_currency}'
             response = requests.get(url)

@@ -1,7 +1,7 @@
-# Cross-Border Payment Optimization Tool
+# Cross-Border Payment Optimization 💱
 
 ## Overview
-The Cross-Border Payment Optimization Tool is a full-stack web application designed to optimize international money transfers by recommending the best payment route based on cost and speed. It leverages real-time exchange rate data and a dataset of payment providers to provide actionable insights, targeting use cases like remittances or business payments across corridors such as US to Nigeria or US to UK. This project demonstrates end-to-end development skills, combining backend logic, API integration, and a responsive frontend.
+The Cross-Border Payment Optimization Tool is a full web application designed to optimize international money transfers by recommending the best payment route based on cost and speed. It leverages real-time exchange rate data and a dataset of payment providers to provide actionable insights, targeting use cases like remittances or business payments across corridors such as US to Nigeria or US to UK. This project demonstrates end-to-end development skills, combining backend logic, API integration, and a responsive frontend.
 
 ## Features
 - Analyzes payment options (e.g., Wise, Swift, Western Union) based on fixed fees, percentage fees, and transfer speed.
@@ -12,7 +12,7 @@ The Cross-Border Payment Optimization Tool is a full-stack web application desig
 ## Tech Stack
 - **Backend**: Python, FastAPI, Requests, Pandas
 - **Frontend**: React, Tailwind CSS
-- **Data Sources**: Frankfurter API (exchange rates)
+- **Data Sources**: Open Exchange Rates API (exchange rates)
 - **Version Control**: Git, GitHub
 
 ## Installation
@@ -25,7 +25,7 @@ The Cross-Border Payment Optimization Tool is a full-stack web application desig
 ### Setup Instructions
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/cross-border-payment-optimizer.git
+   git clone https://github.com/yourusername/cross-border-payments.git
    cd cross-border-payment-optimizer
    ```
 2. Set up the backend:
@@ -40,7 +40,7 @@ The Cross-Border Payment Optimization Tool is a full-stack web application desig
      ```
    - Run the server:
      ```
-     uvicorn main:app --reload
+     uvicorn app:app --reload
      ```
 3. Set up the frontend:
    - Navigate to the frontend directory:
@@ -55,7 +55,7 @@ The Cross-Border Payment Optimization Tool is a full-stack web application desig
      ```
      npm start
      ```
-4. Ensure the Frankfurter API is accessible (no key required for free tier).
+4. Ensure the Open Exchange Rate API is accessible (1000 requests/month for the free tier).
 
 ## Usage
 1. Open your browser and navigate to `http://localhost:3000`.
@@ -64,7 +64,7 @@ The Cross-Border Payment Optimization Tool is a full-stack web application desig
 4. Explore the dashboard for cost comparisons and route details.
 
 ## Project Structure
-- `backend/`: Contains `main.py` for API logic and data processing.
+- `backend/`: Contains `app.py` for API logic and data processing.
 - `frontend/`: Houses React components and Tailwind styling.
 - `README.md`: This file.
 
