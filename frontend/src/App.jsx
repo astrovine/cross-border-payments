@@ -8,17 +8,19 @@ import ExchangeRateTicker from './components/ExchangeRateTicker';
 function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [currentDestCurrency, setCurrentDestCurrency] = useState('USD'); // Track destination currency
 
   const handleSubmit = async ({ amount, sourceCurrency, destCurrency, priority }) => {
     setLoading(true);
     setResult(null);
+    setCurrentDestCurrency(destCurrency); // Store the destination currency
 
     try {
       const queryParams = new URLSearchParams({
         amount: amount.toString(),
-        dest_currency: destCurrency, // Fixed: backend expects dest_currency, not destCurrency
+        source_currency: sourceCurrency, // Add source currency parameter
+        dest_currency: destCurrency,
         priority: priority
-        // Note: source_currency is not currently supported by backend
       });
 
       const res = await fetch(`http://localhost:8000/recommend?${queryParams}`);
@@ -31,8 +33,6 @@ function App() {
       }
 
       const data = await res.json();
-
-      // Backend now returns the correct structure: {best, providers, summary}
       setResult(data);
     } catch (err) {
       setResult({
@@ -44,14 +44,11 @@ function App() {
   };
 
   const handleRateClick = (fromCurrency, toCurrency) => {
-    // This function will be called when a user clicks on an exchange rate
-    // You can use it to auto-populate the form or show more details
     console.log(`Selected rate: ${fromCurrency} to ${toCurrency}`);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <div
         className="relative bg-gradient-to-br from-sky-900 via-blue-900 to-indigo-900 text-white overflow-hidden"
         style={{
@@ -61,15 +58,12 @@ function App() {
           backgroundAttachment: 'fixed',
         }}
       >
-        {/* Background Pattern */}
         <div className="absolute inset-0 bg-gradient-to-r from-sky-600/20 to-blue-600/20"></div>
-
-        {/* Navigation */}
         <nav className="relative z-10 px-6 py-4">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Globe className="w-8 h-8" />
-              <span className="text-xl font-bold">BorderOpt</span>
+              <span className="text-xl font-bold">Payments</span>
             </div>
             <div className="hidden md:flex items-center space-x-6 text-sm">
               <a href="#" className="hover:text-sky-300 transition">How it works</a>
@@ -79,7 +73,6 @@ function App() {
           </div>
         </nav>
 
-        {/* Hero Content */}
         <div className="relative z-10 px-6 py-20">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
@@ -87,10 +80,8 @@ function App() {
               <span className="bg-gradient-to-r from-sky-300 to-blue-300 bg-clip-text text-transparent"> Payments</span>
             </h1>
             <p className="text-xl md:text-2xl text-sky-100 mb-8 max-w-3xl mx-auto">
-              Compare rates from top providers worldwide. Save up to 15% on international transfers with our AI-powered optimization engine.
+              Compare rates from top providers worldwide. Save up to 15% on international transfers with our cutting edge optimization engine.
             </p>
-
-            {/* Feature highlights */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-3xl mx-auto">
               <div className="flex items-center justify-center space-x-2 text-sky-200">
                 <TrendingUp className="w-5 h-5" />
@@ -109,18 +100,17 @@ function App() {
         </div>
       </div>
 
-      {/* Main Dashboard */}
+
       <div className="relative -mt-20 z-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 gap-8">
-            {/* Form Section */}
+
             <div className="xl:col-span-1 lg:col-span-1">
               <div className="space-y-6">
                 <div className="bg-white rounded-2xl shadow-xl p-6 backdrop-blur border border-white/20">
                   <PaymentForm onSubmit={handleSubmit} loading={loading} />
                 </div>
-                
-                {/* Exchange Rate Ticker */}
+
                 <div className="bg-white rounded-2xl shadow-xl backdrop-blur border border-white/20 overflow-hidden">
                   <ExchangeRateTicker onRateClick={handleRateClick} />
                 </div>
@@ -143,7 +133,7 @@ function App() {
               
               {result && !loading && (
                 <div className="bg-white rounded-2xl shadow-xl border border-white/20 overflow-hidden">
-                  <RecommendationResult result={result} />
+                  <RecommendationResult result={result} destCurrency={currentDestCurrency} />
                 </div>
               )}
 
@@ -188,10 +178,10 @@ function App() {
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <Globe className="w-6 h-6" />
-                <span className="text-lg font-bold">BorderOpt</span>
+                <span className="text-lg font-bold">Payments</span>
               </div>
               <p className="text-gray-400 mb-4 max-w-md">
-                AI-powered cross-border payment optimization. Compare rates, save money, and transfer funds globally with confidence.
+                What are we transferring today?. Compare rates, save money, and transfer funds globally with confidence.
               </p>
               <div className="flex space-x-4">
                 <div className="text-sm text-gray-400">

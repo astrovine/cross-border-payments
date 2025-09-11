@@ -14,8 +14,7 @@ export default function ExchangeRateTicker({ onRateClick }) {
 	const [rates, setRates] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [lastUpdate, setLastUpdate] = useState(null);
-
-	// Simulated exchange rate data (in a real app, this would come from your backend or a rates API)
+    // Mock function to generate random rates and changes
 	const generateMockRates = () => {
 		return MAJOR_PAIRS.map((pair) => ({
 			...pair,
@@ -26,7 +25,6 @@ export default function ExchangeRateTicker({ onRateClick }) {
 	};
 
 	useEffect(() => {
-		// Initial load
 		const loadRates = () => {
 			setLoading(true);
 			setTimeout(() => {

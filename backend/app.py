@@ -22,15 +22,14 @@ app.add_middleware(
 df = pd.read_csv('C:/Code/Python/border-opt/dataset/payment.csv')
 
 @app.get("/recommend")
-def get_recommendation(amount: float, dest_currency: str, priority: str = 'cost'):
-    # 1. Fetch exchange rates using the new function
-    exchange_rates = get_exchange_rates(dest_currency)
-    if not exchange_rates or not exchange_rates.get(dest_currency):
-        raise HTTPException(status_code=500, detail="Could not retrieve exchange rates.")
-
-    # 2. Get recommendation
-    result = recommend_provider(df, amount, exchange_rates, dest_currency, priority)
+def get_recommendation(amount: float, source_currency: str, dest_currency: str, priority: str = 'cost'):
+    # Get recommendation with source and destination currencies
+    result = recommend_provider(df, amount, source_currency, dest_currency, priority)
     if result is None:
-        raise HTTPException(status_code=404, detail="No provider found for the given currency.")
+        raise HTTPException(status_code=404, detail="No provider found for the given currencies.")
+
+    # Check if there's an error in the result
+    if isinstance(result, dict) and "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
 
     return result
