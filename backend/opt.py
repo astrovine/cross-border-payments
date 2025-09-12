@@ -1,7 +1,5 @@
 import requests
 import os
-import pandas as pd
-import numpy as np
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,6 +7,7 @@ load_dotenv()
 API_KEY = os.getenv('API_KEY')
 
 def get_exchange_rates(source_currency='USD', dest_currency=None):
+    """Fetch exchange rates and handle currency conversion."""
     if source_currency == 'USD':
         symbols = dest_currency if dest_currency else ''
         url = f'https://openexchangerates.org/api/latest.json?app_id={API_KEY}&base=USD&symbols={symbols}'
@@ -46,11 +45,12 @@ def get_exchange_rates(source_currency='USD', dest_currency=None):
         return None
 
 def calculate_total_cost(row, amount, exchange_rate, source_currency='USD'):
-    fixed_fee = row.get('Fixed_Fee_Min_USD', 0)
-    percentage_fee_min = row.get('Percentage_Fee_Min', 0)
-    percentage_fee_max = row.get('Percentage_Fee_Max', 0)
+    """Calculate total cost for a provider given the amount and exchange rate."""
+    fixed_fee = float(row.get('Fixed_Fee_Min_USD', 0))
+    percentage_fee_min = float(row.get('Percentage_Fee_Min', 0))
+    percentage_fee_max = float(row.get('Percentage_Fee_Max', 0))
     percentage_fee_avg = (percentage_fee_min + percentage_fee_max) / 2
-    markup = row.get('Exchange_Rate_Markup_Min', 0)
+    markup = float(row.get('Exchange_Rate_Markup_Min', 0))
 
     if source_currency != 'USD':
         try:
@@ -73,11 +73,12 @@ def calculate_total_cost(row, amount, exchange_rate, source_currency='USD'):
     return total_cost_dest
 
 def calculate_speed(row):
-    min_speed = row.get('Speed_Min_Hours', 0)
-    max_speed = row.get('Speed_Max_Hours', 0)
+    min_speed = float(row.get('Speed_Min_Hours', 0))
+    max_speed = float(row.get('Speed_Max_Hours', 0))
     return (min_speed + max_speed) / 2
 
-def recommend_provider(df, amount, source_currency, dest_currency, priority='cost'):
+def recommend_provider(data, amount, source_currency, dest_currency, priority='cost'):
+    """Recommend provider using list of dictionaries instead of pandas DataFrame"""
     if source_currency == dest_currency:
         return {"error": "Source and destination currencies cannot be the same"}
 
@@ -88,7 +89,7 @@ def recommend_provider(df, amount, source_currency, dest_currency, priority='cos
     exchange_rate = exchange_rates[dest_currency]
     results = []
 
-    for idx, row in df.iterrows():
+    for row in data:
         cost = calculate_total_cost(row, amount, exchange_rate, source_currency)
         speed = calculate_speed(row)
         destination_amount = amount * exchange_rate
@@ -99,7 +100,7 @@ def recommend_provider(df, amount, source_currency, dest_currency, priority='cos
             'Avg_Speed_Hours': speed,
             'Destination_Amount': destination_amount,
             'Exchange_Rate': exchange_rate,
-            'Fees': row.get('Fixed_Fee_Min_USD', 0) + (row.get('Percentage_Fee_Min', 0) / 100) * amount,
+            'Fees': float(row.get('Fixed_Fee_Min_USD', 0)) + (float(row.get('Percentage_Fee_Min', 0)) / 100) * amount,
             'Source_Currency': source_currency,
             'Dest_Currency': dest_currency
         })
@@ -107,23 +108,25 @@ def recommend_provider(df, amount, source_currency, dest_currency, priority='cos
     if not results:
         return None
 
-    recommendations = pd.DataFrame(results)
-
+    # Sort results based on priority
     if priority == 'cost':
-        best = recommendations.sort_values(by='Total_Cost').iloc[0]
+        results.sort(key=lambda x: x['Total_Cost'])
+        best = results[0]
     elif priority == 'speed':
-        best = recommendations.sort_values(by='Avg_Speed_Hours').iloc[0]
+        results.sort(key=lambda x: x['Avg_Speed_Hours'])
+        best = results[0]
     else:
-        best = recommendations.sort_values(by='Total_Cost').iloc[0]
+        results.sort(key=lambda x: x['Total_Cost'])
+        best = results[0]
 
-    total_costs = recommendations['Total_Cost'].tolist()
+    total_costs = [r['Total_Cost'] for r in results]
     baseline_cost = max(total_costs) if total_costs else 0
     best_cost = min(total_costs) if total_costs else 0
     savings = baseline_cost - best_cost
 
     return {
-        'best': best.to_dict(),
-        'providers': recommendations.to_dict('records'),
+        'best': best,
+        'providers': results,
         'summary': {
             'baseline_cost': baseline_cost,
             'best_cost': best_cost,
@@ -134,18 +137,22 @@ def recommend_provider(df, amount, source_currency, dest_currency, priority='cos
     }
 
 if __name__ == '__main__':
-    df = pd.read_csv('C:/Code/Python/border-opt/dataset/payment.csv')
+    data = [
+        {'Provider': 'Provider1', 'Fixed_Fee_Min_USD': 5, 'Percentage_Fee_Min': 1, 'Percentage_Fee_Max': 3, 'Exchange_Rate_Markup_Min': 0.5, 'Speed_Min_Hours': 24, 'Speed_Max_Hours': 48},
+        {'Provider': 'Provider2', 'Fixed_Fee_Min_USD': 10, 'Percentage_Fee_Min': 2, 'Percentage_Fee_Max': 4, 'Exchange_Rate_Markup_Min': 0.7, 'Speed_Min_Hours': 12, 'Speed_Max_Hours': 36},
+        {'Provider': 'Provider3', 'Fixed_Fee_Min_USD': 0, 'Percentage_Fee_Min': 0, 'Percentage_Fee_Max': 1, 'Exchange_Rate_Markup_Min': 0.2, 'Speed_Min_Hours': 48, 'Speed_Max_Hours': 72},
+    ]
 
-    print("testing exchange rate fetch and recommendation...\n")
+    print("Testing exchange rate fetch and recommendation...\n")
     dest_currency_ngn = 'NGN'
     exchange_rates_ngn = get_exchange_rates(dest_currency_ngn)
     if exchange_rates_ngn:
-        recommendation_ngn = recommend_provider(df, 1000, exchange_rates_ngn, dest_currency_ngn, priority='cost')
+        recommendation_ngn = recommend_provider(data, 1000, exchange_rates_ngn, dest_currency_ngn, priority='cost')
         print(recommendation_ngn)
 
-    print("\n testing with GBP\n")
+    print("\nTesting with GBP\n")
     dest_currency_gbp = 'GBP'
     exchange_rates_gbp = get_exchange_rates(dest_currency_gbp)
     if exchange_rates_gbp:
-        recommendation_gbp = recommend_provider(df, 1000, exchange_rates_gbp, dest_currency_gbp, priority='speed')
+        recommendation_gbp = recommend_provider(data, 1000, exchange_rates_gbp, dest_currency_gbp, priority='speed')
         print(recommendation_gbp)

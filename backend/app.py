@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-import pandas as pd
+import csv
 from opt import recommend_provider
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -21,7 +21,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-df = pd.read_csv('dataset/payment.csv')
+def load_csv_data():
+    """Load CSV data into a list of dictionaries"""
+    data = []
+    with open('dataset/payment.csv', 'r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            data.append(row)
+    return data
+
+data = load_csv_data()
 
 @app.get("/")
 def health_check():
@@ -29,7 +38,7 @@ def health_check():
 
 @app.get("/recommend")
 def get_recommendation(amount: float, source_currency: str, dest_currency: str, priority: str = 'cost'):
-    result = recommend_provider(df, amount, source_currency, dest_currency, priority)
+    result = recommend_provider(data, amount, source_currency, dest_currency, priority)
     if result is None:
         raise HTTPException(status_code=404, detail="No provider found for the given currencies.")
 
