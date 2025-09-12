@@ -11,7 +11,7 @@ function App() {
   const [currentDestCurrency, setCurrentDestCurrency] = useState('USD');
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://your-railway-app-name.railway.app'
+    ? 'https://cross-border-payments-1.onrender.com'
     : 'http://localhost:8000';
 
   const handleSubmit = async ({ amount, sourceCurrency, destCurrency, priority }) => {
