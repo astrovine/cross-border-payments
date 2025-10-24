@@ -1,4 +1,4 @@
-# Cross-Border Payment Optimization 💱
+# Cross Border Payments
 
 ## Overview
 The Cross Border Payment Optimization Tool is a full web application designed to optimize international money transfers by recommending the best payment route based on cost and speed. It leverages real time exchange rate data and a dataset of payment providers to provide insights, targeting use cases like remittances or business payments across corridors such as US to Nigeria or US to UK.
