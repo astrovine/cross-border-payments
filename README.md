@@ -1,7 +1,7 @@
 # Cross-Border Payment Optimization 💱
 
 ## Overview
-The Cross-Border Payment Optimization Tool is a full web application designed to optimize international money transfers by recommending the best payment route based on cost and speed. It leverages real-time exchange rate data and a dataset of payment providers to provide actionable insights, targeting use cases like remittances or business payments across corridors such as US to Nigeria or US to UK. This project demonstrates end-to-end development skills, combining backend logic, API integration, and a responsive frontend.
+The Cross Border Payment Optimization Tool is a full web application designed to optimize international money transfers by recommending the best payment route based on cost and speed. It leverages real time exchange rate data and a dataset of payment providers to provide insights, targeting use cases like remittances or business payments across corridors such as US to Nigeria or US to UK.
 
 ## Features
 - Analyzes payment options (e.g., Wise, Swift, Western Union) based on fixed fees, percentage fees, and transfer speed.
@@ -68,8 +68,6 @@ The Cross-Border Payment Optimization Tool is a full web application designed to
 - `frontend/`: Houses React components and Tailwind styling.
 - `README.md`: This file.
 
-## Development Status
-This project is in active development, with the initial version in completion. Current features include basic route optimization and a functional UI. Future enhancements may include advanced filtering and live deployment.
 
 ## Contributing
 Contributions are welcome. To contribute:
@@ -79,8 +77,6 @@ Contributions are welcome. To contribute:
 4. Push to the branch (`git push origin feature-branch`).
 5. Submit a pull request.
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
 For questions or feedback, reach out via divineuzoukwu3@gmail.com or connect on [linkedin](www.linkedin.com/in/uzoukwu-divine)
