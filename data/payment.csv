@@ -1,0 +1,21 @@
+Provider,Service_Type,Fee_Structure,Fixed_Fee_Min_USD,Fixed_Fee_Max_USD,Percentage_Fee_Min,Percentage_Fee_Max,Speed_Min_Hours,Speed_Max_Hours,Coverage_Countries,Exchange_Rate_Markup_Min,Exchange_Rate_Markup_Max,Source,Notes
+Wise,Digital Money Transfer,Fixed + Percentage,0.5,2.0,0.41,0.62,0.25,24,80,0.0,0.0,Wise Transparency,Mid-market rate used
+Western Union,Traditional + Digital,Variable by corridor,5.0,15.0,1.0,5.0,0.25,168,200,2.0,4.0,World Bank RPW,Extensive agent network
+MoneyGram,Traditional + Digital,Variable by corridor,4.0,12.0,1.0,4.5,0.5,72,200,2.0,3.5,World Bank RPW,Domestic limit 10000 USD
+Swift,Bank Wire Network,Fixed + Correspondent,15.0,50.0,0.05,0.25,24.0,72,999,0.0,0.0,Banking Industry,Interbank network protocol
+Remitly,Digital Money Transfer,Tiered Service,0.0,8.0,0.5,2.5,0.25,72,50,1.0,3.0,Remitly Transparency,Express vs Economy options
+Xoom,Digital Money Transfer,Variable by corridor,0.0,4.99,1.0,3.0,0.25,24,160,1.0,2.5,PayPal Xoom,PayPal integration available
+WorldRemit,Digital Money Transfer,Fixed Fee Model,2.99,9.99,0.0,1.0,0.25,48,130,1.0,2.0,WorldRemit Public,Mobile-focused platform
+Ria Money Transfer,Traditional + Digital,Variable by corridor,3.0,15.0,1.0,4.0,1.0,72,190,2.0,4.0,Ria Public,Walmart partnership active
+Transfer Galaxy,Digital Money Transfer,Percentage Based,0.0,0.0,0.8,1.5,24.0,48,30,0.5,1.0,Transfer Galaxy,European market focus
+OFX,Digital Money Transfer,Exchange Rate Markup,0.0,0.0,0.0,0.0,24.0,48,190,0.4,2.0,OFX Transparency,No transfer fees charged
+Paysend,Digital Money Transfer,Flat Fee,1.5,2.99,0.0,0.0,0.25,24,100,2.0,3.0,Paysend Public,Card-to-card transfers
+Azimo,Digital Money Transfer,Variable by corridor,0.0,4.99,0.5,2.0,0.25,48,200,1.0,2.5,Azimo Public,Mobile-first approach
+Skrill,Digital Wallet,Percentage + Fixed,1.45,1.45,1.45,1.45,0.25,24,40,3.99,3.99,Skrill Fees,Digital wallet service
+Payoneer,B2B Payment Platform,Volume Based,1.5,3.0,0.5,2.0,24.0,72,200,1.0,3.0,Payoneer Public,Business-focused platform
+TransferGo,Digital Money Transfer,Fixed Fee,0.99,4.99,0.0,0.0,0.25,48,47,0.6,2.0,TransferGo Public,European corridor specialist
+Currencies Direct,FX Specialist,Negotiable,0.0,0.0,0.0,0.0,24.0,48,40,0.5,2.5,Currencies Direct,Large transfer specialist
+Global Reach,Digital Money Transfer,Variable,2.0,8.0,0.5,1.5,1.0,48,40,1.0,2.0,Global Reach,Cash pickup network
+InstaReM,Digital Money Transfer,Mid-market focused,0.0,15.0,0.25,1.0,1.0,48,55,0.25,1.0,InstaReM Public,Business and consumer
+Pangea,Digital Money Transfer,Flat Fee,4.99,4.99,0.0,0.0,24.0,72,21,1.5,2.5,Pangea Public,Latin America specialist
+Sharemoney,Digital Money Transfer,Fixed Fee,3.99,4.99,0.0,0.0,0.25,72,90,2.0,4.0,Sharemoney Public,Cash pickup available
