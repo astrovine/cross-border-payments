@@ -11,7 +11,7 @@ function App() {
   const [currentDestCurrency, setCurrentDestCurrency] = useState('USD');
 
   const API_BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'https://cross-border-payments-app.onrender.com'
+    ? 'https://cross-border-payments-dv.onrender.com'
     : 'http://localhost:8000';
 
   const handleSubmit = async ({ amount, sourceCurrency, destCurrency, priority }) => {
@@ -47,7 +47,6 @@ function App() {
   };
 
   const handleRateClick = (fromCurrency, toCurrency) => {
-    // Future: Auto-fill form with selected currency pair
   };
 
   return (
@@ -202,7 +201,7 @@ function App() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="https://github.com/astrovine/cross-border-payments" className="hover:text-white transition">How it works</a></li>
                 <li><a href="#" className="hover:text-white transition">Pricing</a></li>
-                <li><a href="https://cross-border-payments-app.onrender.com/docs#/default/get_recommendation_recommend_get" className="hover:text-white transition">API</a></li>
+                <li><a href="https://cross-border-payments-dv.onrender.com/docs#/default/get_recommendation_recommend_get" className="hover:text-white transition">API</a></li>
                 <li><a href="#" className="hover:text-white transition">Security</a></li>
               </ul>
             </div>
