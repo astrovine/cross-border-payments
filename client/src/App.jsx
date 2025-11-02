@@ -27,6 +27,7 @@ function App() {
         priority: priority
       });
 
+      const res = await fetch(`${API_BASE_URL}/api/v1/recommend?${queryParams}`);
 
       if (!res.ok) {
         const text = await res.text();
